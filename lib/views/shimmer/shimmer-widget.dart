@@ -6,7 +6,7 @@ class CustomShimmerWidget extends StatelessWidget {
   Widget build(BuildContext context) => Shimmer.fromColors(
         baseColor: Colors.grey[300]!,
         highlightColor: Colors.grey[100]!,
-        period: Duration(seconds: 2),
+        period: Duration(seconds: 2),  //shimmer will be visible for this duration
         child: Card(
           elevation: 3,
           shape: RoundedRectangleBorder(
