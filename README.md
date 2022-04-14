@@ -1,0 +1,1 @@
+# Flutter_assignment_artivatic.ai
