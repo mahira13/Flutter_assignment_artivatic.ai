@@ -13,7 +13,8 @@ class _HomepageState extends State<Homepage> {
   bool _loading = true;
   late List<RowData> rowDataList;
   String appbarTitle = "";
-  Future<void> _getData() async {   // function to refresh data
+  Future<void> _getData() async {
+    // function to refresh data
     rowDataList.clear();
     await getApiData();
   }
@@ -28,12 +29,21 @@ class _HomepageState extends State<Homepage> {
 //function to call controller class
   getApiData() {
     ApiDataController().getDataList().then((value) {
-      appbarTitle = value.title;   //storing title parameter in api response to appbar title
-      rowDataList = value.rows;    // storing rows list in api response to a list
+      appbarTitle =
+          value.title; //storing title parameter in api response to appbar title
+      rowDataList = value.rows; // storing rows list in api response to a list
       setState(() {
-        _loading = false;          // setting loading=false when data from api is receieved
+        _loading =
+            false; // setting loading=false when data from api is receieved
       });
     });
+  }
+
+  Widget defaultPlaceholderImage() {    ///default image to show when network image is unavailable
+    return SizedBox(
+        height: 150,
+        width: 200,
+        child: Image.asset("assets/images/noimage.png"));
   }
 
   @override
@@ -48,20 +58,59 @@ class _HomepageState extends State<Homepage> {
           ),
         ),
         body: _loading == true
-            ? Center(child: const CircularProgressIndicator())  //showing progress indicator until response from api is received
-            : RefreshIndicator(
-                onRefresh: _getData,    //calling refresh function to get updated data from api 
-                child: ListView.builder(
-                    itemCount: rowDataList.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          margin: const EdgeInsets.all(8),
-                          elevation: 2,
-                          child: Text(rowDataList[index].title));
-                    })),
+            ? Center(
+                child:
+                    const CircularProgressIndicator()) //showing progress indicator until response from api is received
+            : rowDataList.isEmpty
+                ? Center(
+                    child: Text('Nothing to show!'),
+                  )
+                : RefreshIndicator(
+                    onRefresh:
+                        _getData, //calling refresh function to get updated data from api
+                    child: ListView.builder(
+                        itemCount: rowDataList.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              margin: const EdgeInsets.all(8),
+                              elevation: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      rowDataList[index].title,
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 4, 0, 8),
+                                      child: Text(
+                                          rowDataList[index].description,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.grey[700])),
+                                    ),
+                                    rowDataList[index].imageHref == "NA"
+                                        ? defaultPlaceholderImage()
+                                        : Image.network(
+                                            rowDataList[index].imageHref,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return defaultPlaceholderImage();
+                                            },
+                                          )
+                                  ],
+                                ),
+                              ));
+                        })),
       ),
     );
   }

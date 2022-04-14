@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Assignment Artivatic',
         theme: ThemeData(
+          scaffoldBackgroundColor: Colors.blueGrey[50],
           primarySwatch: Colors.red,
         ),
         initialRoute: '/',

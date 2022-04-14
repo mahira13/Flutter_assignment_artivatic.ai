@@ -15,7 +15,7 @@ class ApiDataModel {
   List<RowData> rows;
 
   factory ApiDataModel.fromJson(Map<String, dynamic> json) => ApiDataModel(
-        title: json["title"]==null? "NA" :json["title"],
+        title: json["title"] ?? "NA",
         rows: List<RowData>.from(json["rows"].map((x) => RowData.fromJson(x))),
       );
 
@@ -37,9 +37,9 @@ class RowData {
   String imageHref;
 
   factory RowData.fromJson(Map<String, dynamic> json) => RowData(
-        title: json["title"] == null ? "NA" : json["title"],
-        description: json["description"] == null ? "NA" : json["description"],
-        imageHref: json["imageHref"] == null ? "" : json["imageHref"],
+        title: json["title"] ?? "NA",
+        description: json["description"] ?? "NA",
+        imageHref: json["imageHref"] ?? "NA",
       );
 
   Map<String, dynamic> toJson() => {
