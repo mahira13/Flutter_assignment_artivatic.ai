@@ -47,7 +47,21 @@ class _HomepageState extends State<Homepage> {
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
           ),
         ),
-       
+        body: _loading == true
+            ? Center(child: const CircularProgressIndicator())  //showing progress indicator until response from api is received
+            : RefreshIndicator(
+                onRefresh: _getData,    //calling refresh function to get updated data from api 
+                child: ListView.builder(
+                    itemCount: rowDataList.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          margin: const EdgeInsets.all(8),
+                          elevation: 2,
+                          child: Text(rowDataList[index].title));
+                    })),
       ),
     );
   }
