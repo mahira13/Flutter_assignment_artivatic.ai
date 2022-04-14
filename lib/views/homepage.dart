@@ -1,5 +1,6 @@
 import 'package:assignment_artivatic/controllers/api-data-controller.dart';
 import 'package:assignment_artivatic/models/api-data-model.dart';
+import 'package:assignment_artivatic/views/shimmer/shimmer-widget.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
@@ -58,9 +59,14 @@ class _HomepageState extends State<Homepage> {
           ),
         ),
         body: _loading == true
-            ? Center(
-                child:
-                    const CircularProgressIndicator()) //showing progress indicator until response from api is received
+            ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return CustomShimmerWidget();
+                }),
+          ) //showing progress indicator until response from api is received
             : rowDataList.isEmpty
                 ? Center(
                     child: Text('Nothing to show!'),
